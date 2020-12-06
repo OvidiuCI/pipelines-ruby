@@ -13,8 +13,8 @@ steps:
 
 - script: |
     gem install bundler
-    bundle update --bundler
     bundle install --retry=3 --jobs=4
+    bundle update --bundler
   displayName: 'bundle install'
 
 - script: bundle exec rake
