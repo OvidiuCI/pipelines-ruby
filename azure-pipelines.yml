@@ -9,25 +9,26 @@ pool:
 steps:
 - task: UseRubyVersion@0
   inputs:
-    versionSpec: '2.6.6'
+    versionSpec: '>= 2.4'
+    addToPath: true
+
+- script: gem install rails && rails -v
+  displayName: 'gem install rails'
 
 - script: |
-    gem install bundler
-    gem install bundler:1.16.4
+    CALL gem install bundler
     bundle install --retry=3 --jobs=4
   displayName: 'bundle install'
 
 - script: bundle exec rake
   displayName: 'bundle exec rake'
 
-# - script: bundle exec rspec spec --format RspecJunitFormatter --out test_results/TEST-rspec.xml
-
 - task: PublishTestResults@2
   condition: succeededOrFailed()
   inputs:
     testResultsFiles: '**/test-*.xml'
     testRunTitle: 'Ruby tests'
-    
+
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: Cobertura
