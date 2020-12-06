@@ -10,10 +10,6 @@ steps:
 - task: UseRubyVersion@0
   inputs:
     versionSpec: '>= 2.5'
-#    addToPath: true
-
-- script: gem install rails && rails -v
-  displayName: 'gem install rails'
 
 - script: |
     gem install bundler
@@ -23,12 +19,14 @@ steps:
 - script: bundle exec rake
   displayName: 'bundle exec rake'
 
+# - script: bundle exec rspec spec --format RspecJunitFormatter --out test_results/TEST-rspec.xml
+
 - task: PublishTestResults@2
   condition: succeededOrFailed()
   inputs:
     testResultsFiles: '**/test-*.xml'
     testRunTitle: 'Ruby tests'
-
+    
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: Cobertura
