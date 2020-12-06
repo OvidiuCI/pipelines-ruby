@@ -12,9 +12,10 @@ steps:
     versionSpec: '>= 2.5'
 
 - script: |
-    gem install bundler
+    gem install bundler:1.16.4
     bundle install --retry=3 --jobs=4
     bundle update --bundler
+    
   displayName: 'bundle install'
 
 - script: bundle exec rake
